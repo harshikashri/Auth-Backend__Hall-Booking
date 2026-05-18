@@ -7,7 +7,6 @@ from pydantic import BaseModel, ConfigDict, Field
 class UserCreate(BaseModel):
 	name: str = Field(min_length=1, max_length=100)
 	password: str
-	role: str = Field(default="user", min_length=1, max_length=20)
 
 
 class UserOut(BaseModel):

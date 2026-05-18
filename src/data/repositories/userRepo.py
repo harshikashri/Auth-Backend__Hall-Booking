@@ -22,7 +22,7 @@ class UserRepository:
         user = User(
             name=user_data["name"],
             password_hash=hash_password(user_data["password"]),
-            role=user_data.get("role", "user"),
+            role="user",
         )
 
         self.session.add(user)
