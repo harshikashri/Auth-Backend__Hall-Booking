@@ -13,6 +13,7 @@ RUN python -m pip install --upgrade pip \
 		alembic>=1.18.4 \
 		asyncpg>=0.31.0 \
 		fastapi>=0.136.1 \
+		python-jose[cryptography]>=3.3.0 \
 		psycopg2-binary>=2.9.12 \
 		pydantic-settings>=2.14.1 \
 		python-dotenv>=1.2.2 \
