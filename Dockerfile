@@ -1,26 +1,22 @@
 FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
-	PYTHONUNBUFFERED=1 \
-	PIP_NO_CACHE_DIR=1
+    PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-COPY pyproject.toml ./
+# Install uv
+RUN pip install uv
 
-RUN python -m pip install --upgrade pip \
-	&& python -m pip install \
-		alembic>=1.18.4 \
-		asyncpg>=0.31.0 \
-		fastapi>=0.136.1 \
-		psycopg2-binary>=2.9.12 \
-		pydantic-settings>=2.14.1 \
-		python-dotenv>=1.2.2 \
-		sqlalchemy[asyncio]>=2.0.49 \
-		uvicorn>=0.47.0
+# Copy dependency files first for better Docker cache usage
+COPY pyproject.toml uv.lock* ./
 
+# Install dependencies from pyproject.toml
+RUN uv sync --frozen
+
+# Copy project files
 COPY . .
 
 EXPOSE 8000
 
-CMD ["uvicorn", "src.api.rest.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uv", "run", "uvicorn", "src.api.rest.app:app", "--host", "0.0.0.0", "--port", "8000"]

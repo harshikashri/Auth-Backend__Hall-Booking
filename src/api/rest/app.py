@@ -5,6 +5,8 @@ from sqlalchemy import text
 
 from src.data.clients.postgres import get_or_create_engine
 from src.api.rest.routes.health import router as health_router
+from src.api.rest.routes.users import router as users_router
+from src.api.rest.routes.auth import router as auth_router
 
 
 
@@ -42,4 +44,6 @@ app = FastAPI(
 )
 
 app.include_router(router=health_router)
+app.include_router(router=users_router)
+app.include_router(router=auth_router)
 
