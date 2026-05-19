@@ -5,7 +5,8 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from src.data.models.postgres.user import Base
+from src.data.models.postgres.base import Base
+from src.data.models.postgres import base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -46,7 +47,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
-        version_table="alembic_version_auth"
+        version_table="alembic_version"
     )
 
     with context.begin_transaction():
@@ -68,7 +69,7 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata , version_table="alembic_version_auth"
+            connection=connection, target_metadata=target_metadata , version_table="alembic_version"
         )
 
         with context.begin_transaction():

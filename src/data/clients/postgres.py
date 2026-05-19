@@ -1,8 +1,8 @@
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
-from src.data.models.postgres.user import Base
-
+# from src.data.models.postgres.user import Base
+from src.data.models.postgres.base import Base
 
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
