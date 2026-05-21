@@ -7,6 +7,7 @@ from src.data.clients.postgres import get_or_create_engine
 from src.api.rest.routes.health import router as health_router
 from src.api.rest.routes.users import router as users_router
 from src.api.rest.routes.auth import router as auth_router
+from src.api.rest.middleware.cors import add_cors_middleware
 
 
 
@@ -42,6 +43,8 @@ app = FastAPI(
     title="Base REST Service Template",
     lifespan=lifespan,
 )
+
+add_cors_middleware(app)
 
 app.include_router(router=health_router)
 app.include_router(router=users_router)
