@@ -44,17 +44,9 @@ def run_migrations_offline() -> None:
     """
     from src.config.settings import settings
 
-    if settings.DATABASE_URL:
-        database_url = settings.DATABASE_URL
-    else:
-        database_url = (
-            f"postgresql+asyncpg://"
-            f"{settings.POSTGRES_USER}:"
-            f"{settings.POSTGRES_PASSWORD}@"
-            f"{settings.POSTGRES_HOST}:"
-            f"{settings.POSTGRES_PORT}/"
-            f"{settings.POSTGRES_DB}"
-        )
+    
+    database_url = settings.DATABASE_URL
+    
 
     config.set_main_option("sqlalchemy.url", database_url)
     context.configure(
