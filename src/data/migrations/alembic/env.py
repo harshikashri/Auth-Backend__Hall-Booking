@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from alembic import context
 
 from src.data.models.postgres.base import Base
-from src.data.models.postgres import *
+
 
 # Alembic Config object
 config = context.config
