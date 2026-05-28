@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 FRONTEND_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    " https://frontend-159108267686.asia-south1.run.app",
+    "https://frontend-159108267686.asia-south1.run.app",
 ]
 
 
