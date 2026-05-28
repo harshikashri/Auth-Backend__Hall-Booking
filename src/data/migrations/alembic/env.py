@@ -5,6 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from booking_backend.src.config import settings
 from src.data.models.postgres.base import Base
 from src.data.models.postgres import base
 
@@ -41,7 +42,21 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    from src.config.settings import settings
+
+    if settings.DATABASE_URL:
+        database_url = settings.DATABASE_URL
+    else:
+        database_url = (
+            f"postgresql+asyncpg://"
+            f"{settings.POSTGRES_USER}:"
+            f"{settings.POSTGRES_PASSWORD}@"
+            f"{settings.POSTGRES_HOST}:"
+            f"{settings.POSTGRES_PORT}/"
+            f"{settings.POSTGRES_DB}"
+        )
+
+    config.set_main_option("sqlalchemy.url", database_url)
     context.configure(
         url=url,
         target_metadata=target_metadata,

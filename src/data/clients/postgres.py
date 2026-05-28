@@ -1,8 +1,3 @@
-from collections.abc import AsyncGenerator
-from contextlib import asynccontextmanager
-
-from src.data.models.postgres.base import Base
-
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
@@ -13,21 +8,26 @@ from sqlalchemy.ext.asyncio import (
 from src.config.settings import settings
 
 
-DATABASE_URL = settings.DATABASE_URL
-
-if DATABASE_URL is None:
-    raise ValueError("DATABASE_URL is not set")
+if settings.DATABASE_URL:
+    DATABASE_URL = settings.DATABASE_URL
+else:
+    DATABASE_URL = (
+        f"postgresql+asyncpg://"
+        f"{settings.POSTGRES_USER}:"
+        f"{settings.POSTGRES_PASSWORD}@"
+        f"{settings.POSTGRES_HOST}:"
+        f"{settings.POSTGRES_PORT}/"
+        f"{settings.POSTGRES_DB}"
+    )
 
 
 _engine: AsyncEngine | None = None
 
 
 def get_or_create_engine() -> AsyncEngine:
-
     global _engine
 
     if _engine is None:
-
         _engine = create_async_engine(
             DATABASE_URL,
 
@@ -52,7 +52,6 @@ def get_or_create_engine() -> AsyncEngine:
 
 
 def get_session_factory() -> async_sessionmaker[AsyncSession]:
-
     return async_sessionmaker(
         bind=get_or_create_engine(),
         class_=AsyncSession,

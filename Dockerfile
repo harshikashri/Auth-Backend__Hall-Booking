@@ -5,16 +5,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Install uv
 RUN pip install uv
 
-# Copy dependency files first for better Docker cache usage
 COPY pyproject.toml uv.lock* ./
 
-# Install dependencies from pyproject.toml
 RUN uv sync --frozen
 
-# Copy project files
 COPY . .
 
 EXPOSE 8080
