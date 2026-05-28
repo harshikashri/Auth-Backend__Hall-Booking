@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from booking_backend.src.config import settings
+
 from src.data.models.postgres.base import Base
 from src.data.models.postgres import base
 
@@ -58,7 +58,7 @@ def run_migrations_offline() -> None:
 
     config.set_main_option("sqlalchemy.url", database_url)
     context.configure(
-        url=url,
+        url=database_url,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
