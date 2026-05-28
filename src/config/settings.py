@@ -1,12 +1,11 @@
-from pydantic import model_validator
-from pydantic_settings import BaseSettings
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    DATABASE_URL: str | None = None
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    
-
+    DATABASE_URL: str = Field(validation_alias="DATABASE_URL")
     SECRET_KEY: str
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
