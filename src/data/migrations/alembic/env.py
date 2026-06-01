@@ -1,5 +1,4 @@
 from logging.config import fileConfig
-import os
 import asyncio
 
 from sqlalchemy import pool
@@ -7,21 +6,18 @@ from sqlalchemy.ext.asyncio import create_async_engine
 
 from alembic import context
 
+from src.config.settings import settings
 from src.data.models.postgres.base import Base
 
 
 # Alembic Config object
 config = context.config
 
-# Read DATABASE_URL from environment
-database_url = os.getenv("DATABASE_URL")
-
-if database_url:
-    # Escape % for configparser
-    config.set_main_option(
-        "sqlalchemy.url",
-        database_url.replace("%", "%%")
-    )
+# Use the resolved application database URL so migrations match runtime config.
+config.set_main_option(
+    "sqlalchemy.url",
+    settings.DATABASE_URL.replace("%", "%%")
+)
 
 # Setup logging
 if config.config_file_name is not None:
